@@ -46,7 +46,7 @@ class Fish (Context, event.Event):
                 c = random.choice(config.the_player.get_pirates())
                 self.result["message"] = c.get_name() + " brought back fish to his crew!"
                 c.lucky = True
-                config.the_player.ship.add_food(5)
+                config.the_player.ship.add_food(20)
                 self.result["newevents"] = [ self ]
                 self.go = True
 
