@@ -37,4 +37,14 @@ class Flintlock(Item):
         self.skill = "guns"
         self.verb = "shoot"
         self.verb2 = "shoots"
-
+        
+class Grenade(Item):
+      def __init__(self):
+        super().__init__("flintlock", 800) #Note: price is in shillings (a silver coin, 20 per pound)
+        self.damage = (10,500)
+        self.firearm = True
+        self.charge = True
+        self.skill = "grenades"
+        self.verb = "throw"
+        self.verb2 = "throwing"
+    

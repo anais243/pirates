@@ -58,6 +58,9 @@ class CrewMate(Context):
     def get_health (self):
         return self.health
 
+    def add_health(self, amt):
+        self.health = self.health + atm
+
     def receive_medicine (self, num):
         '''Makes the pirate no longer sick (but doesn't remove sickness event)'''
         if (num > 0):
