@@ -123,6 +123,8 @@ class Player (Context):
                     else:
                         announce("There's nowhere to go ashore.")
                         self.go = False
+                else:
+                    self.location.process_verb (cmd_list[1], cmd_list, nouns)
         else:
             announce ("Error: Player object does not understand verb " + verb)
             pass

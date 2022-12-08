@@ -10,24 +10,24 @@ class Clinic (location.Location):
         self.name = "clinic"
         self.symbol = "C"
         self.visitable = True
-        self.starting_location = Beach_with_ship(self)
+        self.starting_location = Hospital_on_foot(self)
         self.locations = {}
         self.locations["hospital"] = self.starting_location
         self.locations["front desk"] = FrontDesk(self)
         self.locations["waiting room"] = WaitingRoom(self)
         self.locations["bathroom"] = Bathroom(self)
-        self.locations["emergency room"] = EmergencyRoom(self)
+        #self.locations["emergency room"] = EmergencyRoom(self)
         self.locations["food station"] = FoodStation(self)
         self.locations["powder store"] = PowderStore(self)
-        self.locations["medicine"] = Medicine(self)
+        #self.locations["medicine"] = Medicine(self)
 
-        def enter (self, ship):
-            print("The ship has arrived to a clinic!")
+    def enter (self, ship):
+        print("\nThe ship has arrived to a clinic!\n")
 
-        def visit (self):
-            config.the_player.location = self.starting_location
-            config.the_player.location.enter()
-            super().visit()
+    def visit (self):
+        config.the_player.location = self.starting_location
+        config.the_player.location.enter()
+        super().visit()
 
 class Hospital_on_foot (location.SubLocation):
     def __init__(self, m):
@@ -38,30 +38,30 @@ class Hospital_on_foot (location.SubLocation):
         self.verbs["left"] = self
         self.verbs["right"] = self
 
-        def enter (self):
-            print("The ship has been anchored and you have entered the hospital.")
+    def enter (self):
+        print("\nThe ship has been anchored and you have entered the hospital.\n")
 
-        def process_verb (self, verb, cmd_list, nouns):
-            if (verb == "backward"):
-                #Pirates return to their ship
-                print("You have returned to your ship.")
-                config.the_player.next_loc = config.the_player.ship
-                config.the_player.visiting = False
-                
-            elif (verb == "forward"):
-                #Takes pirates to the front desk class
-                config.the_player.next_loc = self.main_location.locations["front desk"]
+    def process_verb (self, verb, cmd_list, nouns):
+        if (verb == "backward"):
+            #Pirates return to their ship
+            print("You have returned to your ship.")
+            config.the_player.next_loc = config.the_player.ship
+            config.the_player.visiting = False
+            
+        elif (verb == "forward"):
+            #Takes pirates to the front desk class
+            config.the_player.next_loc = self.main_location.locations["front desk"]
 
-            elif (verb == "right"):
-                #Takes pirates to the waiting room
-                config.the_player.next_loc = self.main_location.locations["waiting room"]
+        elif (verb == "right"):
+            #Takes pirates to the waiting room
+            config.the_player.next_loc = self.main_location.locations["waiting room"]
 
-            elif (verb == "left"):
-                #Takes pirates to the bathroom
-                config.the_player.next_loc = self.main_location.locations["bathroom"]
+        elif (verb == "left"):
+            #Takes pirates to the bathroom
+            config.the_player.next_loc = self.main_location.locations["bathroom"]
 
 
-class FrontDesk (location.Sublocation):
+class FrontDesk (location.SubLocation):
     def __init__(self, m):
         super().__init__(m)
         self.name = "front desk"
@@ -70,7 +70,7 @@ class FrontDesk (location.Sublocation):
 
 
     def enter (self):
-        print("The pirates are currently at the front desk.")
+        print("\nThe pirates are currently at the front desk.\n")
 
     def process_verb(self, verb, cmd_list, nouns):
         if (verb == "backward"):
@@ -103,7 +103,7 @@ class FrontDesk (location.Sublocation):
                 #Pirates will go to get medicine
                 config.the_player.next_loc = self.main_location.locations["medicine"]
 
-class WaitngRoom(location.Sublocation):
+class WaitingRoom(location.SubLocation):
     def __init__(self, m):
         super().__init__(m)
         self.name = "waiting room"
@@ -112,11 +112,12 @@ class WaitngRoom(location.Sublocation):
 
 
     def enter(self):
-        print("The pirates have now stepped into the waiting room.")
+        print("\nThe pirates have now stepped into the waiting room.\n")
 
     def process_verb(self, verb, cmd_list, nouns):
         if (verb == "sit"):
             #Pirates sit in the waiting room, relaxing a little which earns them some health points
+            print("The pirates are sitting down and resting a little.")
             c = config.the_player.get_pirates()
             for crewmate in c: 
                 crewmate.add_health(10)
@@ -125,13 +126,14 @@ class WaitngRoom(location.Sublocation):
 
         elif (verb == "sleep"):
             #Pirates sleep in the waiting room earning a lot more health points
+            print("The pirates are taking a nap and resting their exhausted bodies")
             c = config.the_player.get_pirates()
             for crewmate in c: 
                 crewmate.add_health(20)
 
             #Ask pirates if they want to access different locations or if they are ready to leave
 
-class Bathroom(location.Sublocation):
+class Bathroom(location.SubLocation):
     def __init__(self, m):
         super().__init__(m)
         self.name = "bathroom"
@@ -139,22 +141,22 @@ class Bathroom(location.Sublocation):
         self.verbs["wash"] = self
 
 
-        def enter(self):
-            print("The pirates are currently in the bathroom.")
+    def enter(self):
+        print("\nThe pirates are currently in the bathroom.\n")
 
-        def process_verb(self, verb, cmd_list, nouns):
-            if (verb == "urinate"):
-                print("The pirates emptied out their bladders in the toilet and feel relieved.")
-                c = config.the_player.get_pirates()
-                for crewmate in c:
-                    crewmate.add_health(15)
+    def process_verb(self, verb, cmd_list, nouns):
+        if (verb == "urinate"):
+            print("The pirates emptied out their bladders in the toilet and feel relieved.")
+            c = config.the_player.get_pirates()
+            for crewmate in c:
+                crewmate.add_health(15)
 
-            elif (verb == "wash"):
-                print("The pirates washed their hands in the sink and lessened their chances of getting diseases.")
-                c = config.the_player.get_pirates()
-                for crewmate in c:
-                    crewmate.add_health(5)
-                
+        elif (verb == "wash"):
+            print("The pirates washed their hands in the sink and lessened their chances of getting diseases.")
+            c = config.the_player.get_pirates()
+            for crewmate in c:
+                crewmate.add_health(5)
+            
 
 ##class EmergencyRoom(location.Sublocation):
 ##    def __init__(self, m):
@@ -162,34 +164,47 @@ class Bathroom(location.Sublocation):
 ##        self.name = "emergency room"
 ##        self.verbs[""]
 
-class FoodStation(location.Sublocation):
+class FoodStation(location.SubLocation):
     def __init__(self, m):
         super().__init__(m)
         self.name = "food station"
         self.verbs["eat"] = self
         self.verbs["take"] = self
 
-        def enter(self):
-            print("The pirates are at the food station.")
+    def enter(self):
+        print("\nThe pirates are at the food station.\n")
 
-        def process_verb(self, verb, cmd_list, nouns):
-            if (verb == "eat"):
-                print("The pirates are eating and gaining strength back")
-                c = config.the_player.get_pirates()
-                for crewmate in c:
-                    crewmate.add_health(10)
-            elif (verb == "take"):
-                print("The pirates are collecting food to take back to the ship.")
-                c = config.the_player.get_pirates()
-                for crewmate in c:
-                    ship.add_food(7)
-                
+    def process_verb(self, verb, cmd_list, nouns):
+        if (verb == "eat"):
+            print("The pirates are eating and gaining strength back")
+            c = config.the_player.get_pirates()
+            for crewmate in c:
+                crewmate.add_health(10)
+        elif (verb == "take"):
+            print("The pirates are collecting food to take back to the ship.")
+            c = config.the_player.get_pirates()
+            for crewmate in c:
+                ship.add_food(7)
+            
         
 
-##class PowderStore(location.Sublocation):
-##    def __init__(self, m):
-##        super().__init__(m)
-##
+class PowderStore(location.SubLocation):
+    def __init__(self, m):
+        super().__init__(m)
+        self.name = "powder store"
+        self.verbs["restock"] = self
+
+    def enter(self):
+        print("\nThe pirates are at the powder restock room.\n")
+
+    def process_verb(self, verb, cmd_list, nouns):
+        #The pirates are checking if the powder is in need of restocking and restocking it if necessary
+        if(verb == "restock"):
+            print("The pirates are restocking the powder.")
+            c = config.the_player.get_pirates()
+            for crewmate in c:
+                crewmate.restock()          
+
 ##class Medicine(location.Sublocation):
 ##    def __init__(self, m):
 ##        super().__init__(m)
