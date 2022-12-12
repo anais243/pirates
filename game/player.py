@@ -204,6 +204,13 @@ class Player (Context):
         self.ship.print ()
         for crew in self.get_pirates():
             crew.print()
+
+    def clinic_food_status (self):
+        announce ("Food stores are at: " + str (self.ship.get_food()),pause=False)
+
+    def clinic_powder_status (self):
+        announce ("Powder stores are at: " + str (self.powder//self.CHARGE_SIZE) + " cannon " + str (self.powder%self.CHARGE_SIZE) + " sidearm",pause=False)
+
         
     def print (self):
         self.ship.print()

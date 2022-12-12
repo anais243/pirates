@@ -13,7 +13,7 @@ class Seagull (Context, event.Event):
         self.verbs['chase'] = self
         self.verbs['feed'] = self
         self.verbs['help'] = self
-        self.verbs['kill'] = self
+        self.verbs['eat'] = self
         self.result = {}
         self.go = False
 
@@ -42,9 +42,9 @@ class Seagull (Context, event.Event):
         elif (verb == "help"):
             print ("the seagulls will pester you until you feed them or chase them off")
             self.go = False
-        elif (verb == "kill"):
-            self.seagulls = self.seagulls - 1
-            self.result["message"] = "The seagull is dead. May he rest in peace."
+        elif (verb == "eat"):
+            config.the_player.ship.add_food(15)
+            self.result["message"] = "The seagull has been eaten. May he rest in peace."
             self.go = True
         else:
             print ("it seems the only options here are to feed or chase")
