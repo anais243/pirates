@@ -51,7 +51,7 @@ class World (Context):
         self.locs[self.startx+1][self.starty] = whirl
 
         #Test island: always start off next to a test island. Swap in your island to test yours.
-        testland = island.Island (self.startx, self.starty+1, self)
+        testland = clinic.Clinic (self.startx, self.starty+1, self)
         self.locs[self.startx][self.starty+1] = testland
 
         self.events = []
@@ -64,7 +64,6 @@ class World (Context):
         self.events.append (fish.Fish())
         self.events.append (fish.Fish())
         self.events.append (sickness.Sickness())
-        self.events.append (healing.Healing())
         self.events.append (drowned_pirates.DrownedPirates())
         self.nouns["world"] = self
 
