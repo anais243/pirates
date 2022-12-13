@@ -21,7 +21,7 @@ class Clinic (location.Location):
         self.locations["emergency room"] = EmergencyRoom(self)
         self.locations["food station"] = FoodStation(self)
         self.locations["powder store"] = PowderStore(self)
-        #self.locations["medicine"] = Medicine(self)
+        self.locations["medicine"] = Medicine(self)
 
     def enter (self, ship):
         print("\nThe ship has arrived to a clinic!\n")
@@ -242,9 +242,22 @@ class PowderStore(location.SubLocation):
             print("\nThe pirates are leaving the room.\n")
             config.the_player.next_loc = self.main_location.locations["front desk"]
 
-##class Medicine(location.Sublocation):
-##    def __init__(self, m):
-##        super().__init__(m)
+class Medicine(location.SubLocation):
+    def __init__(self, m):
+        super().__init__(m)
+        self.name = "medicine"
+        self.verbs["refill"] = self
+
+    def enter(self):
+        print("\nThe pirates are at the medicine room.\n")
+        
+    def process_verb(self, verb, cmd_list, nouns):
+        #The pirates are checking if the powder is in need of restocking and restocking it if necessary
+        if(verb == "refill"):
+            print("\nThe pirates are refilling the medicine if needed.\n")
+            config.the_player.ship.refill()
+            print("\nThe pirates are leaving the room.\n")
+            config.the_player.next_loc = self.main_location.locations["front desk"]
 
 
 

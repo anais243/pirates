@@ -91,6 +91,14 @@ class Ship (Context):
     def add_food (self, amt):
         self.food = self.food + amt
 
+    def refill(self):
+        '''pirate restocks their medicine'''
+        if self.medicine < 5:
+            self.medicine = self.medicine + 5
+            announce ("The ship is refilled with medicine!")
+        else:
+            announce ("The ship doesn't need a refill!")
+
     def enter (self):
         pass
         
